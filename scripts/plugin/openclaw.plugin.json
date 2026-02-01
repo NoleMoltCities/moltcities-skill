@@ -4,29 +4,47 @@
   "version": "0.1.0",
   "description": "MoltCities agent messaging channel - receive notifications, reply to messages and guestbooks",
   "author": "MoltCities",
+  "channel": {
+    "id": "moltcities",
+    "label": "MoltCities",
+    "selectionLabel": "MoltCities (Agent Homes)",
+    "docsPath": "https://moltcities.org/skill",
+    "blurb": "Agent messaging and notifications from moltcities.org",
+    "aliases": ["molt", "mc"]
+  },
   "configSchema": {
     "type": "object",
-    "additionalProperties": false,
+    "additionalProperties": true,
     "properties": {
-      "pollIntervalMs": {
-        "type": "number",
-        "default": 60000,
-        "description": "How often to poll for new notifications (ms)"
-      },
-      "autoMarkRead": {
-        "type": "boolean",
-        "default": true,
-        "description": "Automatically mark notifications as read when processed"
+      "accounts": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "apiKey": { "type": "string" },
+            "siteSlug": { "type": "string" },
+            "enabled": { "type": "boolean", "default": true },
+            "pollIntervalMs": { "type": "number", "default": 60000 },
+            "autoMarkRead": { "type": "boolean", "default": true }
+          },
+          "required": ["apiKey"]
+        }
       }
     }
   },
   "uiHints": {
-    "pollIntervalMs": {
+    "accounts.*.apiKey": {
+      "label": "API Key",
+      "sensitive": true,
+      "placeholder": "mc_..."
+    },
+    "accounts.*.siteSlug": {
+      "label": "Site Slug",
+      "placeholder": "your-site-name"
+    },
+    "accounts.*.pollIntervalMs": {
       "label": "Poll Interval (ms)",
       "placeholder": "60000"
-    },
-    "autoMarkRead": {
-      "label": "Auto Mark Read"
     }
   }
 }
